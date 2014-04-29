@@ -1,14 +1,13 @@
 package com.matt9949.jerseyrestexample.bean;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class Cat {
 
     private String name;
     private String gender;
     private int age;
     private String breed;
+
+    public Cat(){}
 
     public Cat(String name, String gender, int age, String breed) {
         this.name = name;

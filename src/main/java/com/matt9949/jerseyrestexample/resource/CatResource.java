@@ -13,14 +13,15 @@ public class CatResource {
     private CatService catService;
 
     @Context
-    UriInfo uriInfo;
+    private UriInfo uriInfo;
 
     public CatResource() {
         this.catService = new CatService();
     }
 
-    CatResource(CatService catService){
+    CatResource(CatService catService, UriInfo uriInfo){
         this.catService = catService;
+        this.uriInfo = uriInfo;
     }
 
     @POST
