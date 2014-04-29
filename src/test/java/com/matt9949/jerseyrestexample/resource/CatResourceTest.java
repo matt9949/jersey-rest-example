@@ -3,7 +3,9 @@ package com.matt9949.jerseyrestexample.resource;
 import com.matt9949.jerseyrestexample.bean.Cat;
 import com.matt9949.jerseyrestexample.service.CatService;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -22,6 +24,9 @@ public class CatResourceTest {
     private CatService mockService;
     @Mock
     private UriInfo mockUriInfo;
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
 
     @Before
     public void setUp(){
@@ -39,6 +44,41 @@ public class CatResourceTest {
 
         assertThat(assertResponse.getStatus(), is(201));
         assertThat(assertResponse.getMetadata().get("location").get(0).toString(), is("test/123"));
+    }
+
+    @Test
+    public void shouldThrowValidationExceptionOnPostInvalidCat() throws URISyntaxException {
+        Cat invalidCat = new Cat("mattcat", null, 8, "tabby");
+        CatResource testResource = new CatResource(mockService, mockUriInfo);
+        when(mockService.createCat(invalidCat)).thenThrow(new RuntimeException());
+
+        //TODO: Change to ValidationException
+        expectedException.expect(RuntimeException.class);
+
+        testResource.postCat(invalidCat);
+    }
+
+    @Test
+    public void shouldGetCatWith200ResponseCode() throws URISyntaxException {
+        Cat expectedCat = new Cat("mattcat", "male", 8, "tabby");
+        CatResource testResource = new CatResource(mockService, mockUriInfo);
+        when(mockService.retrieveCat("123")).thenReturn(expectedCat);
+
+        Response assertResponse = testResource.getCat("123");
+
+        assertThat(assertResponse.getStatus(), is(200));
+        assertThat((Cat)assertResponse.getEntity(), is(expectedCat));
+    }
+
+    @Test
+    public void shouldThrowNotFoundExceptionWhenCatNotFound() throws URISyntaxException {
+        CatResource testResource = new CatResource(mockService, mockUriInfo);
+        when(mockService.retrieveCat("idontexist")).thenThrow(new RuntimeException());
+
+        //TODO: Change to NotFoundException
+        expectedException.expect(RuntimeException.class);
+
+        testResource.getCat("idontexist");
     }
 
 
