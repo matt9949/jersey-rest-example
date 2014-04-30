@@ -16,6 +16,8 @@ import java.net.URISyntaxException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class CatResourceTest {
@@ -44,6 +46,7 @@ public class CatResourceTest {
 
         assertThat(assertResponse.getStatus(), is(201));
         assertThat(assertResponse.getMetadata().get("location").get(0).toString(), is("test/123"));
+        verify(mockService, times(1)).createCat(validCat);
     }
 
     @Test
@@ -68,6 +71,7 @@ public class CatResourceTest {
 
         assertThat(assertResponse.getStatus(), is(200));
         assertThat((Cat)assertResponse.getEntity(), is(expectedCat));
+        verify(mockService, times(1)).retrieveCat("123");
     }
 
     @Test
@@ -81,6 +85,27 @@ public class CatResourceTest {
         testResource.getCat("idontexist");
     }
 
+    @Test
+    public void shouldUpdateCatWith204ResponseCode() throws URISyntaxException {
+        Cat expectedCat = new Cat("mattcatupdated", "male", 8, "tabby");
+        CatResource testResource = new CatResource(mockService, mockUriInfo);
+        when(mockUriInfo.getAbsolutePath()).thenReturn(new URI("test"));
 
+        Response assertResponse = testResource.updateCat("123", expectedCat);
+
+        verify(mockService, times(1)).updateCat("123", expectedCat);
+        assertThat(assertResponse.getStatus(), is(204));
+        assertThat(assertResponse.getMetadata().get("location").get(0).toString(), is("test/123"));
+    }
+
+    @Test
+    public void shouldDeleteCatWith204ResponseCode() throws URISyntaxException {
+        CatResource testResource = new CatResource(mockService, mockUriInfo);
+
+        Response assertResponse = testResource.deleteCat("123");
+
+        verify(mockService, times(1)).deleteCat("123");
+        assertThat(assertResponse.getStatus(), is(204));
+    }
 
 }

@@ -27,7 +27,7 @@ public class CatResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public final Response postCat(Cat cat){
+    public final Response postCat(final Cat cat){
 
         String catId = catService.createCat(cat);
 
@@ -54,11 +54,11 @@ public class CatResource {
     @Path("/{catId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public final Response updateCat(@PathParam("catId") final String catId, Cat cat){
+    public final Response updateCat(@PathParam("catId") final String catId, final Cat cat){
 
         catService.updateCat(catId, cat);
 
-        final URI location = UriBuilder.fromUri(uriInfo.getAbsolutePath()).build();
+        final URI location = UriBuilder.fromUri(uriInfo.getAbsolutePath()).path(catId).build();
 
         return Response.noContent()
                        .header("Location", location)

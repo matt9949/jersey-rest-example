@@ -14,9 +14,8 @@ public class CatService implements ICatService{
         return null;
     }
 
-    public String updateCat(String catId, Cat cat) {
+    public void updateCat(String catId, Cat cat) {
         //update the cat!
-        return null;
     }
 
     public void deleteCat(String catId) {

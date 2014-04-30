@@ -8,7 +8,7 @@ public interface ICatService {
 
     public Cat retrieveCat(String catId);
 
-    public String updateCat(String catId, Cat cat);
+    public void updateCat(String catId, Cat cat);
 
     public void deleteCat(String catId);
 
