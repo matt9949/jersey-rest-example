@@ -29,7 +29,12 @@ public class InMemoryCatStore implements ICatStore{
 
     @Override
     public Cat retrieveCat(String catId) {
-        return null;
+        if (store.containsKey(catId)){
+            return store.get(catId);
+        }
+        else{
+            return null;
+        }
     }
 
     @Override

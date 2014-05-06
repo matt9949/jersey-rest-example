@@ -1,5 +1,6 @@
 package com.matt9949.jerseyrestexample.resource;
 
+import com.google.inject.Inject;
 import com.matt9949.jerseyrestexample.bean.Cat;
 import com.matt9949.jerseyrestexample.service.CatService;
 
@@ -10,14 +11,11 @@ import java.net.URI;
 @Path("/v1/cats")
 public class CatResource {
 
-    private CatService catService;
+    @Inject
+    private final CatService catService;
 
     @Context
     private UriInfo uriInfo;
-
-    public CatResource() {
-        this.catService = new CatService();
-    }
 
     CatResource(CatService catService, UriInfo uriInfo){
         this.catService = catService;

@@ -37,7 +37,7 @@ public class CatResourceTest {
 
     @Test
     public void shouldPostValidCatWith201ResponseCodeAndLocation() throws URISyntaxException {
-        Cat validCat = new Cat("123", "mattcat", "male", "8", "tabby");
+        Cat validCat = new Cat("mattcat", "male", "8", "tabby");
         CatResource testResource = new CatResource(mockService, mockUriInfo);
         when(mockService.createCat(validCat)).thenReturn("123");
         when(mockUriInfo.getAbsolutePath()).thenReturn(new URI("test"));
@@ -51,7 +51,7 @@ public class CatResourceTest {
 
     @Test
     public void shouldThrowValidationExceptionOnPostInvalidCat() throws URISyntaxException {
-        Cat invalidCat = new Cat("123", "mattcat", null, "8", "tabby");
+        Cat invalidCat = new Cat("mattcat", null, "8", "tabby");
         CatResource testResource = new CatResource(mockService, mockUriInfo);
         when(mockService.createCat(invalidCat)).thenThrow(new RuntimeException());
 
@@ -63,7 +63,7 @@ public class CatResourceTest {
 
     @Test
     public void shouldGetCatWith200ResponseCode() throws URISyntaxException {
-        Cat expectedCat = new Cat("123", "mattcat", "male", "8", "tabby");
+        Cat expectedCat = new Cat("mattcat", "male", "8", "tabby");
         CatResource testResource = new CatResource(mockService, mockUriInfo);
         when(mockService.retrieveCat("123")).thenReturn(expectedCat);
 
@@ -87,7 +87,7 @@ public class CatResourceTest {
 
     @Test
     public void shouldUpdateCatWith204ResponseCode() throws URISyntaxException {
-        Cat expectedCat = new Cat("123", "mattcatupdated", "male", "8", "tabby");
+        Cat expectedCat = new Cat("mattcatupdated", "male", "8", "tabby");
         CatResource testResource = new CatResource(mockService, mockUriInfo);
         when(mockUriInfo.getAbsolutePath()).thenReturn(new URI("test"));
 

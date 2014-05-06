@@ -10,8 +10,7 @@ public class Cat {
 
     public Cat(){}
 
-    public Cat(String id, String name, String gender, String age, String breed) {
-        this.id = id;
+    public Cat(String name, String gender, String age, String breed) {
         this.name = name;
         this.gender = gender;
         this.age = age;
